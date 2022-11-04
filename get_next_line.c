@@ -6,45 +6,66 @@
 /*   By: mdanchev <mdanchev@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:47:19 by mdanchev          #+#    #+#             */
-/*   Updated: 2022/11/03 16:20:53 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2022/11/04 15:43:28 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <fcntl.h>
 #include <stdio.h>
 #include "../Libft-42/libft/libft.h"
+#include <unistd.h>
+#include <stdlib.h>
+#define BUFFER_SIZE 1
 
-//char *get_next_line(int fd)
+char	*get_next_line(int fd)
+{
+	static char		buffer[BUFFER_SIZE + 1];
+	static char		*stash;
+	size_t			i;
+	int				ret;
+	size_t			count;
+
+
+	i = 0;
+	count = 0;
+	if (fd < 0)
+		return (NULL);
+	ret = read(fd, buffer, BUFFER_SIZE);
+	if (ret < 0)
+		return (NULL);
+	while (buffer[i] != '\n')
+	{
+		i++;
+		if (buffer[i] == '\n')
+		{
+			ft_fillstash();
+		}
+		else
+		{
+			i = 0;
+			ret = read(fd, buffer, BUFFER_SIZE);
+			if (ret < 0)
+				return (NULL);
+		}
+	}
+	return (stash);
+}
+
 
 int	main(void)
 {
 	int		fd;
-	int		fd1;
-	int		fd2;
+	int		i;
 
+	i = 0;
 	fd = open("text", O_RDONLY);
-	ft_putnbr_fd(fd,1);
+	ft_putnbr_fd(fd, 1);
+	printf("\n");
 	if (fd == -1)
-		ft_putstr_fd("open() failed\n", 1);
-	/*if (close(fd) == -1)
-		ft_putstr_fd("close() failed\n", 1);*/
+		return (-1);
+	printf("%s\n", get_next_line(fd));
+	if (close(fd) == -1)
+		return (-1);
 
-	printf("\n");
-	fd1 = open("text1", O_WRONLY | O_CREAT);
-	if (fd1 == -1)
-		ft_putstr_fd("open() failed\n", 1);
-/*	if (close(fd1) == -1)
-		ft_putstr_fd("close() failed\n", 1);*/
-	ft_putnbr_fd(fd1, 1);
-
-	//creer un nouveau fichier text2 et avoir les droits d'ecriture
-	//et de lecture
-	printf("\n");
-	fd2 = open("text2", O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
-	if (fd2 == -1)
-		ft_putstr_fd("open() failed\n", 1);
-/*	if (close(fd2) == -1)
-		ft_putstr_fd("close() failed\n", 1);*/
-	ft_putnbr_fd(fd2, 1);
 	return (0);
 
 }
