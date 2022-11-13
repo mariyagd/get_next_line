@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 09:38:26 by mdanchev          #+#    #+#             */
-/*   Updated: 2022/11/10 21:21:34 by mdanchev         ###   ########.fr       */
+/*   Updated: 2022/11/08 15:20:41 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
 
 typedef	struct s_list
 {
@@ -27,22 +30,11 @@ typedef	struct s_list
 	struct s_list		*next;
 }						t_list;
 
-int ft_check_n(char *buffer, ssize_t ret);
+char    *create_malloc(ssize_t size);
+char    *create_result(t_list *head);
 t_list  *ft_node(char *buffer, ssize_t size);
-t_list  *ft_lastnode(t_list *head);
 t_list  *ft_backadd(t_list **head, t_list *node);
-ssize_t ft_count_size(t_list *head);
-void    ft_lstclear(t_list **head);
-char    *fill_result(char *line, ssize_t size_result);
-char    *separate_stash(char *line, t_list *head);
-char    *create_stash(t_list *head);
-char  *fill_nextline(t_list *head, char *line);
-ssize_t ft_size_nextline(char *line);
-char    *create_current_line(t_list *head);
-t_list  *create_new_head(t_list *head);
-ssize_t count_currentline_size(t_list * head);
-ssize_t count_nextline_size(t_list  **head);
-ssize_t count_nextline(t_list *head);
-char  *create_newhead(t_list *head);
-#endif
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstclear(t_list **head);
 
+#endif
