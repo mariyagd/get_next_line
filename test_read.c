@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:47:19 by mdanchev          #+#    #+#             */
-/*   Updated: 2022/11/04 10:21:15 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2022/11/07 11:09:06 by mdanchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <fcntl.h>
@@ -14,7 +14,7 @@
 #include "../Libft-42/libft/libft.h"
 
 //char *get_next_line(int fd)
-#define BUF_SIZE 10
+#define BUF_SIZE 12
 
 int	main(void)
 {
@@ -22,11 +22,11 @@ int	main(void)
 	int		ret;
 //	int		fd1;
 //	int		ret1;
-	char	buf[BUF_SIZE + 1];
+	static char	buf[BUF_SIZE + 1];
 //	char	buf1[BUF_SIZE + 1];
 
 	fd = open("text", O_RDONLY);
-	ft_putnbr_fd(fd, 1);
+	printf("FILE DESCRIPTOR: %d", fd);
 	printf("\n");
 	if (fd == -1)
 		ft_putstr_fd("open() failed\n", 1);
@@ -34,8 +34,39 @@ int	main(void)
 	buf[ret] = '\0';
 	ft_putstr_fd(buf, 1);
 	ft_putnbr_fd(ret, 1);
-	if (close(fd) == -1)
-		ft_putstr_fd("close() failed\n", 1);
+//	if (close(fd) == -1)
+//		ft_putstr_fd("close() failed\n", 1);
+
+	/*printf("\n");
+	ret = read(fd, buf, BUF_SIZE);
+	buf[ret] = '\0';
+	ft_putstr_fd(buf, 1);
+	ft_putnbr_fd(ret, 1);
+	printf("\n");
+	ret = read(fd, buf, BUF_SIZE);
+	buf[ret] = '\0';
+	ft_putstr_fd(buf, 1);
+	ft_putnbr_fd(ret, 1);
+	printf("\n");
+	ret = read(fd, buf, BUF_SIZE);
+	buf[ret] = '\0';
+	ft_putstr_fd(buf, 1);
+	ft_putnbr_fd(ret, 1);
+	printf("\n");
+	ret = read(fd, buf, BUF_SIZE);
+	buf[ret] = '\0';
+	ft_putstr_fd(buf, 1);
+	ft_putnbr_fd(ret, 1);
+	printf("\n");
+	ret = read(fd, buf, BUF_SIZE);
+	buf[ret] = '\0';
+	ft_putstr_fd(buf, 1);
+	ft_putnbr_fd(ret, 1);*/
+/*	printf("\n");
+	ret = read(fd, buf, BUF_SIZE);
+	buf[ret] = '\0';
+	ft_putstr_fd(buf, 1);
+	ft_putnbr_fd(ret, 1);*/
 
 /*	fd1 = open("text0", O_RDONLY);
 	if (fd1 == -1)
