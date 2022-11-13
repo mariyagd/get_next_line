@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 12:10:35 by mdanchev          #+#    #+#             */
-/*   Updated: 2022/11/10 19:37:12 by mdanchev         ###   ########.fr       */
+/*   Updated: 2022/11/10 20:48:48 by mdanchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "gnl.h"
@@ -16,8 +16,11 @@
       t_list  *node;
       char    *stash;
       ssize_t i;
+//	  ssize_t	*taille;
  
       i = 0;
+//	  taille = malloc(sizeof(ssize_t));
+//	  *taille = size;
       stash = malloc((size + 1) * sizeof(char));
       while (i < size)
       {
@@ -28,6 +31,7 @@
 	  if (!node)
 		  return (NULL);
 	  node->content = stash;
+	  node->size = size;
 	  node->next = NULL;
 	  return (node);
  }

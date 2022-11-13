@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 09:38:26 by mdanchev          #+#    #+#             */
-/*   Updated: 2022/11/10 19:43:29 by mdanchev         ###   ########.fr       */
+/*   Updated: 2022/11/10 21:21:34 by mdanchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,7 @@ char    *create_current_line(t_list *head);
 t_list  *create_new_head(t_list *head);
 ssize_t count_currentline_size(t_list * head);
 ssize_t count_nextline_size(t_list  **head);
+ssize_t count_nextline(t_list *head);
+char  *create_newhead(t_list *head);
 #endif
+

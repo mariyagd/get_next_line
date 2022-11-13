@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:38:07 by mdanchev          #+#    #+#             */
-/*   Updated: 2022/11/10 19:43:26 by mdanchev         ###   ########.fr       */
+/*   Updated: 2022/11/12 19:35:34 by mdanchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <fcntl.h>
@@ -34,14 +34,19 @@ char    *get_next_line(int fd)
     static char 	    buffer[BUFFER_SIZE + 1];
     char            	*line;
 	char				*result;
-    char				*nextline;
+    static char			*nextline;
 	ssize_t         	ret;
 	static t_list       *head;
     t_list          	*node;
-	ssize_t				size_nextline;
+	static ssize_t		size_nextline;
 
+	nextline = NULL;
 	head = NULL;
+	size_nextline = 0;
     ret = read(fd, buffer, BUFFER_SIZE);
+
+	if(nextline != NULL)
+		head = ft_node(nextline, size_nextline);
 	if (head == NULL)
 		head = ft_node(buffer, ret);
 	if (ft_check_n(buffer, ret) != 0)	
@@ -57,13 +62,10 @@ char    *get_next_line(int fd)
 		}
 	}
 	line = create_current_line(head);
-	/*t_list	*ptr;
-	ptr = head;
-	while (ptr != NULL)
-	{
-		printf("%zd\n", ptr->size);
-		ptr = ptr->next;
-	}*/
+	size_nextline = count_nextline(head);
+	nextline = create_newhead(head);
+	printf("NEXTLINE = %s\n", nextline);
+	ft_lstclear(&head);
 	return (line);
 }
 
@@ -78,14 +80,14 @@ int	main (void)
 //	t_list		*node2;
 //	t_list		*ptr;
 //	ssize_t		ret;
-	char	*line;
+	static char	*line;
 
 	fd = open("text", O_RDONLY);
 	line = get_next_line(fd);
 	printf("RESULT = %s\n", line);
 	free(line);
 
-/*	line = get_next_line(fd);
+	line = get_next_line(fd);
 	printf("RESULT = %s\n", line);
 	free(line);
 
@@ -94,7 +96,7 @@ int	main (void)
 	free(line);
 	line = get_next_line(fd);
 	printf("RESULT = %s\n", line);
-	free(line);*/
+	free(line);
 /*	//1er node
 	ret = read(fd, buffer, BUFFER_SIZE);
 	node = ft_node(buffer, ret);

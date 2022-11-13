@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 13:50:28 by mdanchev          #+#    #+#             */
-/*   Updated: 2022/11/10 19:43:24 by mdanchev         ###   ########.fr       */
+/*   Updated: 2022/11/10 21:43:50 by mdanchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,73 +140,73 @@ void    ft_lstclear(t_list **head)
 	*head = NULL;
 }
 
-/*
-t_list	*create_new_head(t_list *head)
+ssize_t	count_nextline(t_list *head)
 {
-	char	*nextline;
-	ssize_t	size;
-	t_list	*ptr;
-	ssize_t i;
+	ssize_t	i;
+	t_list *ptr;
+	ssize_t count;
 
 	i = 0;
+	count = 0;
 	ptr = head;
-	size = count_nextline_size(head);
-	if (size == 0)
-		return (NULL);
-	nextline = malloc(size * sizeof(char));
-	size = 0;
-	while (ptr != NULL)
+	while (i < ptr->size && ptr->content[i] != '\n')
 	{
-		while(i < ptr->size && ptr->content[i] != '\n')
-			i++;
-		i = 0;
-		ptr = ptr->next;
+		i++;
+		if (i == ptr->size)
+			ptr = ptr->next;
+		if (ptr->content[i] == '\n')
+			break;
 	}
-	i++;
 	while (ptr != NULL)
 	{
-		while (i < ptr->size)
+		i++;
+		while(i < ptr->size)
 		{
-			nextline[size] = ptr->content[i];
 			i++;
-			size++;
+			count++;
 		}
-		i = 0;
 		ptr = ptr->next;
 	}
-	ft_lstclear(&head);
-	return (ft_node(nextline, size));
-}*/
+	return (count);
+}
 
-
-
-/*
-char    *create_stash(t_list *head)
+char	*create_newhead(t_list *head)
 {
-    char        *line;
-    ssize_t     size;
-    ssize_t     i;
-    t_list      *ptr;
+	ssize_t i;
+	ssize_t size;
+	ssize_t	j;
+	char	*nextline;
+	t_list	*ptr;
 
-    i = 0;
-    size = ft_count_size(head);
-    line = malloc((size + 1) * sizeof(char));
-    size = 0;
-    ptr = head;
-    while (ptr != NULL)
-    {
-        while (i < ptr->size)
-        {
-            line[size] = ptr->content[i];
-            size++;
-            i++;
-        }
-        i = 0;
-        ptr = ptr->next;
-    }
-    line[size] = '\0';
-    return (line);
-}*/
+	i = 0;
+	j = 0;
+	ptr = head;
+	size = count_nextline(head);
+	if (size == 0)
+	{
+		return (NULL);
+	}
+	while (i < ptr->size && ptr->content[i] != '\n')
+	{
+		i++;
+		if (i == ptr->size)
+			ptr = ptr->next;
+		if (ptr->content[i] == '\n')
+			break;
+	}
+	while (ptr != NULL)
+	{
+	//	i++;
+		while(j <= size && i < ptr->size)
+		{
+			nextline[j] = ptr->content[i]; 
+			i++;
+			j++;
+		}
+		ptr = ptr->next;
+	}
+	return (nextline);
+}
 
 
 
