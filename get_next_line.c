@@ -1,276 +1,157 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mdanchev <mdanchev@42lausanne.ch>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 11:47:19 by mdanchev          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2022/11/08 14:40:59 by mdanchev         ###   lausanne.ch       */
-=======
-/*   Updated: 2022/11/07 16:20:49 by mdanchev         ###   ########.fr       */
->>>>>>> Stashed changes
-/*                                                                            */
-/* ************************************************************************** */
-#include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-<<<<<<< Updated upstream
-#include <stdio.h>
-#include "gnl.h"
-#define BUFFER_SIZE 10
+#include "get_next_line.h"
 
-int error_read_ft(ssize_t ret)
+char	*ft_join(char *nextline, char *buffer)
 {
-    if (ret < 0)
-        return (0);
-    else
-        return (1);
-}
-=======
-#include "get.h"
-#define BUFFER_SIZE 1
+	int		i;
+	int		j;
+	char	*fullline;
 
-char	*ft_line(tt_list *head);
-tt_list	*ft_lestnew(char *buffer, ssize_t ret);
-tt_list	ft_lstadd_back(tt_list **lst, tt_list *new);
-
-char	*get_next_line(int fd)
-{
-	static char		buffer[BUFFER_SIZE + 1];
-	size_t			i;
-	ssize_t			ret;
-	t_list			*head;
-	t_list			*node;
->>>>>>> Stashed changes
-
-int error_open_ft(int fd)
-{
-    if (fd < 0)
-        return (0);
-    else
-        return (1);
-}
-
-<<<<<<< Updated upstream
-int ft_check_n(char *buffer, ssize_t ret)
-{
-    ssize_t i;
-    i = 0;
-    while (i < ret && buffer[i] != '\n')
-        i++;
-    if (buffer[i] == '\n')
-        return (0);
-    else
-        return (1);
-=======
+	i = ft_strlen(nextline);
+	j = ft_strlen(buffer);
+	fullline = malloc((i + j + 1) * sizeof(char));
+	if (!fullline)
+		return (NULL);
 	i = 0;
-	if (fd < 0)
-		return (NULL);
-	ret = read(fd, buffer, BUFFER_SIZE);
-	if (ret < 0)
-		return (NULL);
-	if (ret > 0)
-		head = ft_fillstash(buffer, ret);
-	ret = read(fd, buffer, BUFFER_SIZE);
-	if (ret < 0)
-		return (NULL);
+	j = 0;	
+	while (nextline[i] != '\0')
+	{
+		fullline[i] = nextline[i];
+		i++;
+	}
+	while (buffer[j] != '\0')
+	{
+		fullline[i] = buffer[j];
+		i++;
+		j++;
+	}
+	fullline[i] = '\0';
+	free(nextline);
+	return (fullline);
+}
+
+int		ft_check_n(char	*fullline)
+{
+	int	i;
+
+	i = 0;
+	while (fullline[i] != '\0')
+	{
+		if (fullline[i] == '\n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	ft_bzero(char *buffer)
+{
+	int	i;
+	i = 0;
+	while (i <= BUFFER_SIZE)
+	{
+		buffer[i] = '\0';
+		i++;
+	}
+}
+
+char	*read_fd(char *nextline, int fd)
+{
+	char	*buffer;
+	int		ret;
+
+	ret = 1;
+	buffer = ft_calloc(BUFFER_SIZE);
+	if (nextline == NULL)
+		nextline = ft_calloc(0);
 	while (ret > 0)
 	{
-		node = ft_fillstash(buffer, ret);
-		i = 0;
-		while (i < ret && buffer[i] != \n)
+		ret = (int)read(fd, buffer, BUFFER_SIZE);
+		if (ret < 0)
 		{
-			i++;
+			free(buffer);
+			return (NULL);
 		}
-		if (buffer[i] != '\n')
-		{
-			head = ft_lstadd_back(&head, node);
-			ret = read(fd, buffer, BUFFER_SIZE);
-			if (ret < 0)
-				return (0);
-		}
+		buffer[ret] = '\0';
+		nextline =  ft_join(nextline, buffer);
+		if (!nextline)
+			return (NULL);
+		if (ft_check_n(nextline) == 0)
+			break;
+		ft_bzero(buffer);
 	}
-	return (head);
->>>>>>> Stashed changes
+	free(buffer);
+	return (nextline);
 }
 
-t_list  *ft_node(char *buffer, ssize_t size)
+char	*create_result(char *fullline)
 {
-    t_list  *node;
-    char    *stash;
-    ssize_t i;
-
-    i = 0;
-    stash = malloc((size + 1) * sizeof(char));
-    while (i < size)
-    {
-        stash[i] = buffer[i];
-        i++;
-    }
-    node = malloc(sizeof(t_list));
-    if (!node)
-        return (NULL);
-    node->size = size;
-    node->content = stash;
-    node->next = NULL;
-    return (node);
-}
-
-t_list  *ft_lastnode(t_list *head)
-{
-    while (head->next != NULL && head != NULL)
-        head = head->next;
-    return (head);
-}
-
-t_list  *ft_backadd(t_list **head, t_list *node)
-{
-    t_list  *lastnode;
-
-    if (*head == NULL)
-        *head = node;
-    else if (*head != NULL && node != NULL)
-    {
-        lastnode = ft_lastnode(*head);
-        lastnode->next = node;
-    }
-    return (*head);
-}
-
-char    *ft_fillstash(t_list *head)
-{
-    char        *line;
-    ssize_t     size;
-    ssize_t     i;
-    t_list      *ptr;
-
-    size = 0;
-    i = 0;
-    ptr = head;
-    while (ptr != NULL)
-    {
-        size = size + ptr->size;
-        ptr = ptr->next;
-    }
-    line = malloc((size + 1) * sizeof(char));
-    size = 0;
-    ptr = head;
-    while (ptr != NULL)
-    {
-        while (i < ptr->size)
-        {
-            line[size] = ptr->content[i];
-            size++;
-            i++;
-        }
-        i = 0;
-        ptr = ptr->next;
-    }
-    line[size] = '\0';
-    return (line);
-}
-
-char    *get_next_line(int fd)
-{
-    static char     buffer[BUFFER_SIZE + 1];
-    char            *line;
-    ssize_t         ret;
-    t_list          *head;
-    t_list          *node;
-
-    head = NULL;
-    node = NULL;
-    if (error_open_ft(fd) == 0)
-        return (NULL);
-    ret = read(fd, buffer, BUFFER_SIZE);
-    if (error_read_ft(ret) == 0)
-        return (NULL);
-    head = ft_node(buffer, ret);
-    if (ft_check_n(buffer, ret) == 0)
-        line = ft_fillstash(head);
-    else
-    {
-        ret = read(fd, buffer, BUFFER_SIZE);
-        if (error_read_ft(ret) == 0)
-            return (NULL);
-        while (ret > 0)
-        {
-            node = ft_node(buffer, ret);
-            ft_backadd(&head, node);
-            if (ft_check_n(buffer, ret) == 0)
-                break;
-            ret = read(fd, buffer, BUFFER_SIZE);
-            if (error_read_ft(ret) == 0)
-                return (NULL);
-        }
-    }
-    line = ft_fillstash(head);
-    return (line);
-}
-
-char	*ft_line(tt_list *head)
-{
-	t_list	*ptr;
-	ssize_t size;
-	char *line;
-	ssize_t i;
-
-	size = 0;
-	i = 0;
-
-	while(head->next != NULL || head != NULL)
-	{
-		ptr = head->size;
-		size = size + *ptr;
-		head = head->next
-	}
-	line = malloc((size + 1) * sizeof(char));
-	while(head->next != NULL || head != NULL)
-	{
-		while(i < head->size)
-		{
-			line[i] = head->stash[i];
-			i++;
-		}
-		head = head->next;
-	}
-	line[i] = '\0';
-	return(line);
-}
-
-
-
-
-
-
-int	main(void)
-{
-	int		fd;
 	int		i;
-<<<<<<< Updated upstream
 	char	*result;
 
 	i = 0;
-	fd = open("text", O_RDONLY);
-	printf("FILE DESCRIPTOR: %d\n", fd);
-	result = get_next_line(fd);
-	printf("%s\n", result);
-=======
-	tt_list	*result;
-
+	while(fullline[i] != '\0')
+	{
+		if (fullline [i] == '\n')
+			break;
+		i++;
+	}
+	result = malloc((i + 1) * sizeof(char));
 	i = 0;
-	fd = open("text", O_RDONLY);
-	printf("File Descriptor: %d\n", fd);
-	if (fd == -1)
-		return (-1);
-	get_next_line(fd);
-	if (close(fd) == -1)
-		return (-1);
-
->>>>>>> Stashed changes
-	return (0);
-
+	while (fullline[i] != '\0')
+	{
+		result[i] = fullline[i];
+		if (fullline[i] == '\n')
+		{
+			i++;
+			break;
+		}
+		i++;
+	}
+	result[i] = '\0';
+	return (result);
 }
+
+char	*create_nextline(char *result, char *fullline)
+{
+	int		start;
+	int		size;
+	char	*nextline;
+
+	start = ft_strlen(result);
+	size = ft_strlen(fullline);
+	size = size - start;
+	if (size == 0)
+		return (NULL);
+	size = ft_strlen(fullline) - size;
+	nextline = malloc((size + 1) * sizeof(char));
+	if (!nextline)
+		return (NULL);
+	start++;
+	size = 0;
+	while (fullline[start] != '\0')
+	{
+		nextline[size] = fullline[start];
+		size++;
+		start++;
+	}
+	nextline[size] = '\0';
+	return (nextline);
+}
+
+char *get_next_line(int fd)
+{
+	static char	*nextline;
+	char		*fullline;
+	char		*result;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return (NULL);
+	fullline = read_fd(nextline, fd);
+	if (!fullline)
+		return (NULL);
+	result = create_result(fullline);
+	nextline = create_nextline(result, fullline);
+	free(fullline);
+	return (result);
+}
+
