@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   test1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdanchev <mdanchev@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:38:07 by mdanchev          #+#    #+#             */
-/*   Updated: 2022/11/12 22:05:54 by mdanchev         ###   ########.fr       */
+/*   Updated: 2022/11/14 10:39:09 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <fcntl.h>
@@ -121,7 +121,7 @@ char    *create_and_fillstash(t_list **head)
         ptr = ptr->next;
     }
     line[size] = '\0';
-	
+
     return (line);
 }
 
@@ -168,7 +168,7 @@ ssize_t	count_nextlinesize(char *line)
 {
 	ssize_t	i;
 	ssize_t	size_nextline;
-	
+
 	i = 0;
 	size_nextline = 0;
 	while (line[i] != '\n')
