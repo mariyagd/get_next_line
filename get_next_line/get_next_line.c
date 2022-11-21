@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 16:39:35 by mdanchev          #+#    #+#             */
-/*   Updated: 2022/11/19 16:15:55 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2022/11/21 13:39:15 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
