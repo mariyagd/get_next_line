@@ -11,7 +11,7 @@ file descriptor or returning a line from another fd.
 These functions return the line that was read.
 If there is nothing else to read or if an error occurred, they return NULL.
 
-• Please note that the returned line include the terminating \n character, except if the end of file was reached and does not end with a \n character.
+<strong>• Please note that the returned line include the terminating \n character, except if the end of file was reached and does not end with a \n character. </strong>
 
 
 Prototype:
