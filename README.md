@@ -30,5 +30,6 @@ cc -Wall -Wextra -Werror -D BUFFER_SIZE=1 <files>.c
 • We also consider that ```get_next_line()``` has an undefined behavior when reading a binary file.
 
 
-![tested-by-francinette](https://user-images.githubusercontent.com/109855801/203061253-176c5c43-450b-48a7-868b-9a46ecb24df1.svg)
+![tested-by-francinette](https://user-images.githubusercontent.com/109855801/203061253-176c5c43-450b-48a7-868b-9a46ecb24df1.svg) ![evaluated-by-moulinette (3)](https://user-images.githubusercontent.com/109855801/203502004-31b3f40f-7449-4018-80a6-6e0aaf3d4912.svg)
+
 
